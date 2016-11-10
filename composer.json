@@ -1,0 +1,6 @@
+{
+  "require": {
+    "michaelesmith/email-parser": "*"
+  },
+  "minimum-stability": "dev"
+}
