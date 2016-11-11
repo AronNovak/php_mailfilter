@@ -10,12 +10,12 @@ require __DIR__ . '/vendor/autoload.php';
 $config = parse_ini_file(__DIR__ . '/config.ini');
 
 $pointer = fopen('php://stdin', 'r');
-$mail = '';
+$email = '';
 while ($line = fgets($pointer)) {
-  $mail .= $line;
+  $email .= $line;
 }
 $email_parser = new \MS\Email\Parser\Parser();
-$message = $email_parser->parse($mail);
+$message = $email_parser->parse($email);
 $email_recipients = $message->getTo();
 foreach ($email_recipients as $mail) {
   if (!empty($config['whitelist'])) {
@@ -51,7 +51,7 @@ $pipes = array();
 $mail_cmd = isset($config['sendmail']) ? $config['sendmail'] : "/usr/sbin/sendmail -t -i";
 $process = proc_open($mail_cmd, $descriptorspec, $pipes);
 if (is_resource($process)) {
-  fwrite($pipes[0], stream_get_contents(STDIN));
+  fwrite($pipes[0], $email);
   fclose($pipes[0]);
   fclose($pipes[1]);
   return proc_close($process);
